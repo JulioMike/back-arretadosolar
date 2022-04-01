@@ -1,19 +1,26 @@
+
 const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'projects/')
-    },
-    filename: function (req, file, cb) {
-        const extensaoArquivo = file.originalname.split('.')[1];
+module.exports = (multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './src/projects')
+        },
+        filename: function (req, file, cb) {
+            const extensaoArquivo = file.originalname.split('.')[1];
+    
+            const novoNomeArquivo = require('crypto').randomBytes(64).toString('hex');
+    
+            cb(null, `${novoNomeArquivo}.${extensaoArquivo}`)
+        },
+    }),
+    filefilter: (req, file, cb) => {
+        const extensao = [ 'image/png', 'image/jpg', 'image/jpeg'].find(formatoAceito => formatoAceito === file.mimitype);
 
-        const novoNomeArquivo = require('crypto').randomBytes(64).toString('hex');
+        if(extensao){
+            return cb(null, true);
+        }
 
-        cb(null, `${novoNomeArquivo}.${extensaoArquivo}`)
+        return cb(null, false);
     }
-});
-
-
-const upload = multer({ storage }).single('file');
-
-module.exports = upload;
+}))
