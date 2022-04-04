@@ -46,6 +46,20 @@ module.exports ={
             next(error);
         }
     },
+    todos: async (req,res,next) =>{
+        try{
+            const user = await Users.find({});
+
+            res.send(user);
+        }catch(err){
+            console.log(err.message);
+            if(err.name === "ValidationError"){
+                res.status(422).json({erro: err.message});
+                return;
+            }
+            next(err);
+        }
+    },
     userOn: async (req,res,next) =>{
         res.send(req.auth);
     }
