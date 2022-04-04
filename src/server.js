@@ -17,6 +17,6 @@ app.use(project_routes);
 app.use(users_router);
 app.use(auth_router);
 
-app.listen(3333, ()=>{
-    console.log("Servidor rodando na porta 3333.")
+app.listen(process.env.PORT || 3333, ()=>{
+    console.log("Servidor rodando.")
 })
