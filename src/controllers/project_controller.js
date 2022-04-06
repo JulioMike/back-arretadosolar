@@ -11,7 +11,7 @@ module.exports={
         let options ={
             args:[image]
         }
-        PythonShell.run('src//app.py',options, async function (err, results) {
+        PythonShell.run('src/app.py',options, async function (err, results) {
             
             console.log(results)
             res.status(200).send({msg:results})
